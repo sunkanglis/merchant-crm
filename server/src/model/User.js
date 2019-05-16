@@ -1,25 +1,24 @@
-/* eslint no-return-await:0 */
-
+// 链接数据库
 const mongoose = require('../util/mongoose');
-var userModel = mongoose.model('user', new mongoose.Schema({
+// 创建用户表
+var UserModel = mongoose.model('user', new mongoose.Schema({
   username: String,
-  password: String,
-  email: String,
-  registerTime: String
+  password: String
 }));
 
-class UserModel {
-
-  // async findUserProfile() {
-  //   // Similar: return await query('select * from user where uid = ?', uid);
-  //   return await {
-  //     name: '淘小宝',
-  //     department: '技术部',
-  //     avatar:
-  //       'https://img.alicdn.com/tfs/TB1L6tBXQyWBuNjy0FpXXassXXa-80-80.png',
-  //     userid: 10001,
-  //   };
-  // }
+class UserModels {
+  async save({username,password}){
+    return new UserModel({
+      username,
+      password
+    }).save()
+    .then((res)=>{
+      return res
+    })
+    .catch((error=>{
+      return false
+    }))
+  }
 }
 
-module.exports = new UserModel();
+module.exports = new UserModels();

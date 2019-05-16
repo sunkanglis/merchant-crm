@@ -8,7 +8,7 @@ import {
   FormError as IceFormError,
 } from '@icedesign/form-binder';
 import IceIcon from '@icedesign/foundation-symbol';
-
+import axios from 'axios';
 @withRouter
 class UserRegister extends Component {
   static displayName = 'UserRegister';
@@ -22,7 +22,6 @@ class UserRegister extends Component {
     this.state = {
       value: {
         name: '',
-        email: '',
         passwd: '',
         rePasswd: '',
       },
@@ -63,7 +62,18 @@ class UserRegister extends Component {
         console.log('errors', errors);
         return;
       }
-      console.log(values);
+      console.log(values)
+      axios
+        .post('/api/register',{
+          username : values.name,
+          password : values.passwd,
+        })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       Message.success('注册成功');
       this.props.history.push('/user/login');
     });
@@ -90,25 +100,6 @@ class UserRegister extends Component {
               </IceFormBinder>
               <IceFormError name="name" />
             </div>
-
-            <div style={styles.formItem}>
-              <IceIcon type="mail" size="small" style={styles.inputIcon} />
-              <IceFormBinder
-                type="email"
-                name="email"
-                required
-                message="请输入正确的邮箱"
-              >
-                <Input
-                  size="large"
-                  maxLength={20}
-                  placeholder="邮箱"
-                  style={styles.inputCol}
-                />
-              </IceFormBinder>
-              <IceFormError name="email" />
-            </div>
-
             <div style={styles.formItem}>
               <IceIcon type="lock" size="small" style={styles.inputIcon} />
               <IceFormBinder
