@@ -33,15 +33,15 @@ const formConfig = [
     },
   },
   {
-    label: '商品编号',
+    label: '菜品编号',
     component: 'Input',
     componentProps: {
-      placeholder: '请输入商品编号',
+      placeholder: '请输入菜品编号',
     },
     formBinderProps: {
       name: 'goodId',
       required: false,
-      message: '请输入正确的商品编号',
+      message: '请输入正确的菜品编号',
     },
   },
   {
@@ -233,7 +233,7 @@ export default class OrderList extends Component {
         lock: true,
       },
       {
-        title: '商品编号',
+        title: '菜品编号',
         dataIndex: 'goodId',
         key: 'goodId',
         lock: true,

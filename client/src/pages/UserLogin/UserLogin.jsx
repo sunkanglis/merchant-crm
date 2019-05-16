@@ -44,8 +44,8 @@ class UserLogin extends Component {
       }
       axios
         .post('/api/login',{
-          username : 'admin',
-          password : 'admin'
+          username : values.username,
+          password : values.password,
         })
         .then(function (response) {
           console.log(response);

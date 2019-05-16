@@ -43,7 +43,7 @@ export default class GoodsForm extends Component {
   render() {
     return (
       <div>
-        <PageHead title="添加商品" />
+        <PageHead title="添加菜品" />
         <IceContainer style={{ padding: '40px' }}>
           <IceFormBinderWrapper
             value={this.state.value}
@@ -51,10 +51,10 @@ export default class GoodsForm extends Component {
             ref="form"
           >
             <div style={styles.formItem}>
-              <div style={styles.formLabel}>商品名称：</div>
-              <IceFormBinder name="goodsName" required message="商品名称必填">
+              <div style={styles.formLabel}>菜品名称：</div>
+              <IceFormBinder name="goodsName" required message="菜品名称必填">
                 <Input
-                  placeholder="请输入商品名称"
+                  placeholder="请输入菜品名称"
                   style={{ width: '400px' }}
                 />
               </IceFormBinder>
@@ -62,7 +62,7 @@ export default class GoodsForm extends Component {
                 <IceFormError name="goodsName" />
               </div>
             </div>
-            <div style={styles.formItem}>
+            {/* <div style={styles.formItem}>
               <div style={styles.formLabel}>条形码：</div>
               <IceFormBinder name="code">
                 <Input
@@ -70,7 +70,7 @@ export default class GoodsForm extends Component {
                   style={{ width: '400px' }}
                 />
               </IceFormBinder>
-            </div>
+            </div> */}
             <div style={styles.formItem}>
               <div style={styles.formLabel}>库存量：</div>
               <IceFormBinder name="stock" required message="联系方式必填">
@@ -78,7 +78,7 @@ export default class GoodsForm extends Component {
               </IceFormBinder>
             </div>
             <div style={styles.formItem}>
-              <div style={styles.formLabel}>商品标签：</div>
+              <div style={styles.formLabel}>菜品标签：</div>
               <IceFormBinder name="bookName">
                 <Select
                   placeholder="请选择"
@@ -93,10 +93,10 @@ export default class GoodsForm extends Component {
               </IceFormBinder>
             </div>
             <div style={styles.formItem}>
-              <div style={styles.formLabel}>商品价格：</div>
-              <IceFormBinder name="price" required message="商品价格必填">
+              <div style={styles.formLabel}>菜品价格：</div>
+              <IceFormBinder name="price" required message="菜品价格必填">
                 <Input
-                  placeholder="请输入商品价格: ￥199.99"
+                  placeholder="请输入菜品价格: ￥199.99"
                   style={{ width: '400px' }}
                 />
               </IceFormBinder>

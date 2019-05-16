@@ -13,8 +13,8 @@ export default class Goods extends Component {
     return (
       <div>
         <PageHead
-          title="商品管理"
-          buttonText="添加商品"
+          title="菜品管理"
+          buttonText="添加菜品"
           onClick={this.handleClick}
         />
         <Table />

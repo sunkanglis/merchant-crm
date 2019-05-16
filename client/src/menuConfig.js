@@ -3,20 +3,20 @@
 // asideMenuConfig：侧边导航配置
 
 const headerMenuConfig = [
-  {
-    name: '反馈',
-    path: 'https://github.com/alibaba/ice',
-    external: true,
-    newWindow: true,
-    icon: 'message',
-  },
-  {
-    name: '帮助',
-    path: 'https://alibaba.github.io/ice',
-    external: true,
-    newWindow: true,
-    icon: 'bangzhu',
-  },
+  // {
+  //   name: '反馈',
+  //   path: 'https://github.com/alibaba/ice',
+  //   external: true,
+  //   newWindow: true,
+  //   icon: 'message',
+  // },
+  // {
+  //   name: '帮助',
+  //   path: 'https://alibaba.github.io/ice',
+  //   external: true,
+  //   newWindow: true,
+  //   icon: 'bangzhu',
+  // },
   {
     name: '退出',
     path: '/user/login',
@@ -36,12 +36,12 @@ const asideMenuConfig = [
     icon: 'cascades',
   },
   {
-    name: '商品管理',
+    name: '菜品管理',
     path: '/goods',
     icon: 'shopcar',
   },
   {
-    name: '添加商品',
+    name: '添加菜品',
     path: '/add/goods',
     icon: 'publish',
   },

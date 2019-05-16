@@ -116,12 +116,12 @@ export default class GoodsTable extends Component {
         </IceContainer>
         <IceContainer>
           <Table loading={isLoading} dataSource={data} hasBorder={false}>
-            <Table.Column title="商品名称" dataIndex="name" />
-            <Table.Column title="商品分类" dataIndex="cate" />
-            <Table.Column title="商品标签" dataIndex="tag" />
+            <Table.Column title="菜品名称" dataIndex="name" />
+            <Table.Column title="菜品分类" dataIndex="cate" />
+            <Table.Column title="菜品标签" dataIndex="tag" />
             <Table.Column title="在售门店" dataIndex="store" />
             <Table.Column title="总销量" dataIndex="sales" />
-            <Table.Column title="商品服务" dataIndex="service" />
+            <Table.Column title="菜品服务" dataIndex="service" />
             <Table.Column
               title="操作"
               width={200}

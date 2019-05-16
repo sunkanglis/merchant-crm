@@ -39,6 +39,6 @@
     "node-sass": "^4.11.0"
   },
   "devDependencies": {},
-  "title": "商家管理系统",
+  "title": "外卖商家管理系统",
   "templateType": "koa2"
 }

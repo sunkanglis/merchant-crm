@@ -13,7 +13,7 @@ const MOCK_DATA = [
     to: '/asset',
   },
   {
-    title: '商品管理',
+    title: '菜品管理',
     icon: 'cart',
     color: '#f7da47',
     to: '/goods',
@@ -37,7 +37,7 @@ const MOCK_DATA = [
     to: '/membership',
   },
   {
-    title: '添加商品',
+    title: '添加菜品',
     icon: 'cart',
     color: '#447eff',
     to: '/add/goods',
