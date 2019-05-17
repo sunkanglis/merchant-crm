@@ -11,6 +11,15 @@ import './Aside.scss';
 
 @withRouter
 export default class BasicLayout extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      name:''
+    }
+  }
+  getUserInfo(){
+    
+  }
   render() {
     const { location } = this.props;
     const { pathname } = location;
@@ -39,7 +48,7 @@ export default class BasicLayout extends Component {
               淘小宝
             </span>
             <br />
-            <span className="user-department">技术部</span>
+            {/* <span className="user-department">技术部</span> */}
           </div>
         </div>
 

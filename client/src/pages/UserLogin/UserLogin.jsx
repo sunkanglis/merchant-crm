@@ -47,15 +47,18 @@ class UserLogin extends Component {
           username : values.username,
           password : values.password,
         })
-        .then(function (response) {
-          console.log(response);
+        .then(res=>{
+          if(res.data.code == 200){
+            Message.success('登录成功');
+            this.props.history.push('/');
+          }else{
+            Message.error(res.data.message);
+          }
         })
         .catch(function (error) {
           console.log(error);
         });
-      console.log(values);
-      Message.success('登录成功');
-      this.props.history.push('/');
+      
     });
   };
 
