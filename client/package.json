@@ -26,6 +26,8 @@
     "axios": "^0.18.0",
     "bizcharts": "^3.2.2",
     "enquire-js": "^0.1.2",
+    "mobx": "^5.9.4",
+    "mobx-react": "^5.4.4",
     "moment": "^2.23.0",
     "node-sass": "^4.11.0",
     "prop-types": "^15.5.8",
