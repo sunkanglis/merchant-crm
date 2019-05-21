@@ -85,10 +85,13 @@ export default class GoodsForm extends Component {
                   mode="multiple"
                   style={{ width: '400px' }}
                 >
-                  <Option value="1">新品</Option>
-                  <Option value="2">数码</Option>
-                  <Option value="3">智能</Option>
-                  <Option value="4">生活</Option>
+                  <Option value="1">凉菜</Option>
+                  <Option value="2">烧烤</Option>
+                  <Option value="3">主食</Option>
+                  <Option value="4">甜品</Option>
+                  <Option value="5">饮品</Option>
+                  <Option value="6">海鲜</Option>
+                  <Option value="5">西餐</Option>
                 </Select>
               </IceFormBinder>
             </div>
