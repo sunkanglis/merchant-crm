@@ -1,19 +1,5 @@
 const mongoose = require('../util/mongoose');
 const Moment = require('moment');
-
-// const mockData = Array.from({ length: 10 }).map(() => {
-//   return {
-//     id: random(1, 100),
-//     goodId: random(200, 1000),
-//     name: ['淘公仔', '天猫精灵', '蓝牙音响'][random(1, 2)],
-//     payment:
-//       ['支付宝付款', '银行卡付款', '微信付款'][random(1, 2)] || '支付宝付款',
-//     orderType: ['普通订单', '代付订单'][random(0, 1)],
-//     createTime: '2018-12-12',
-//     state: '派送中',
-//     transport: ['快递发货', '上门自提', '同城配送'][random(0, 2)],
-//   };
-// });
 // 创建订单表
 var OrderModel = mongoose.model('order',new mongoose.Schema({
   id:Number, // 订单编号
@@ -38,6 +24,22 @@ class OrderModels{
         }).catch((err) => {
             return false;
         })
+  }
+  // 获取某页订单信息
+  async getOrderInfo(query){
+    const { pageIndex } = query
+    const pageSize = 10
+    return OrderModel.find()
+    .sort({
+      createTime: -1
+    })
+    .skip((pageIndex - 1) * pageSize) //从哪里开始
+    .limit(~~pageSize) //截取多少条
+    .then((results) => {
+        return results;
+    }).catch((err) => {
+        return false;
+    }) 
   }
 }
 
