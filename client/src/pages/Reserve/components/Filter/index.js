@@ -26,20 +26,19 @@ export default class Filter extends Component {
     return (
       <IceFormBinderWrapper
         value={this.state.value}
-        onChange={this.formChange}
         ref="form"
       >
         <div style={styles.formContent}>
           <div style={styles.formItem}>
             <span style={styles.formLabel}>到店时间：</span>
             <IceFormBinder triggerType="onBlur" name="reserveTime">
-              <RangePicker placeholder="请输入" style={{ width: '240px' }} />
+              <RangePicker placeholder="请输入" style={{ width: '240px' }} onOk={this.formChange} />
             </IceFormBinder>
             <div style={styles.formError}>
               <IceFormError name="reserveTime" />
             </div>
           </div>
-          <div style={styles.formItem}>
+          {/* <div style={styles.formItem}>
             {['今天', '明天', '本周'].map((item, index) => {
               return (
                 <Button
@@ -52,7 +51,7 @@ export default class Filter extends Component {
                 </Button>
               );
             })}
-          </div>
+          </div> */}
         </div>
       </IceFormBinderWrapper>
     );

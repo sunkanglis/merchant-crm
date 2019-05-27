@@ -2,6 +2,7 @@ const Koa = require('koa');
 const Router = require('koa-router');
 const cors = require('@koa/cors');
 const bodyParser = require('koa-bodyparser');
+const koaBody = require('koa-body');
 const helmet = require('koa-helmet');
 const respond = require('koa-respond');
 const logger = require('koa-logger');
@@ -17,7 +18,8 @@ require('./router')(router);
 app
   .use(cors())
   .use(logger())
-  .use(bodyParser())
+  // .use(bodyParser())
+  .use(koaBody({"multipart": true}))
   .use(helmet())
   .use(respond())
   .use(router.routes())

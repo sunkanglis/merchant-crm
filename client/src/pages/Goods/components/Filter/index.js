@@ -7,8 +7,11 @@ import {
   FormError as IceFormError,
 } from '@icedesign/form-binder';
 
-const { Row, Col } = Grid;
+import {observer, inject} from 'mobx-react';
 
+
+const { Row, Col } = Grid;
+@inject('foodLabel')
 export default class Filter extends Component {
   state = {
     value: {},
@@ -19,6 +22,10 @@ export default class Filter extends Component {
   };
 
   render() {
+    const { foodLabel } = this.props
+    let foodLabels = foodLabel.list.map((item)=>{
+      return ( <Select.Option value={item.value} key={item.value}>{item.label}</Select.Option>)
+    })
     return (
       <IceFormBinderWrapper
         value={this.state.value}
@@ -29,22 +36,20 @@ export default class Filter extends Component {
           <Col l="6">
             <div style={styles.formItem}>
               <span style={styles.formLabel}>菜品名称：</span>
-              <IceFormBinder triggerType="onBlur" name="name">
+              <IceFormBinder triggerType="onBlur" name="foodName">
                 <Input placeholder="请输入" style={{ width: '200px' }} />
               </IceFormBinder>
               <div style={styles.formError}>
-                <IceFormError name="name" />
+                <IceFormError name="foodName" />
               </div>
             </div>
           </Col>
           <Col l="6">
             <div style={styles.formItem}>
               <span style={styles.formLabel}>菜品分类：</span>
-              <IceFormBinder triggerType="onBlur" name="cate">
-                <Select style={{ width: '200px' }}>
-                  <Select.Option value="1">智能</Select.Option>
-                  <Select.Option value="2">数码</Select.Option>
-                  <Select.Option value="3">新品</Select.Option>
+              <IceFormBinder triggerType="onBlur" name="foodLabel">
+                <Select style={{ width: '200px' }} hasClear>
+                  {foodLabels}
                 </Select>
               </IceFormBinder>
               <div style={styles.formError}>
@@ -52,7 +57,7 @@ export default class Filter extends Component {
               </div>
             </div>
           </Col>
-          <Col l="6">
+          {/* <Col l="6">
             <div style={styles.formItem}>
               <span style={styles.formLabel}>归属门店：</span>
               <IceFormBinder triggerType="onBlur" name="store">
@@ -66,7 +71,7 @@ export default class Filter extends Component {
                 <IceFormError name="store" />
               </div>
             </div>
-          </Col>
+          </Col> */}
         </Row>
       </IceFormBinderWrapper>
     );

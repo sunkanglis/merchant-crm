@@ -1,105 +1,131 @@
 import React, { Component } from 'react';
-import { Table, Pagination, Button, Dialog } from '@alifd/next';
+import { Table, Pagination, Button, Dialog, Message } from '@alifd/next';
 import IceContainer from '@icedesign/container';
 import Filter from '../Filter';
 
-// Random Numbers
-const random = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
 
-// MOCK 数据，实际业务按需进行替换
-const getData = (length = 10) => {
-  return Array.from({ length }).map(() => {
-    return {
-      name: ['蓝牙音箱', '天猫精灵', '智能机器人'][random(0, 2)],
-      cate: ['数码', '智能'][random(0, 1)],
-      tag: ['新品', '预售'][random(0, 1)],
-      store: ['余杭盒马店', '滨江盒马店', '西湖盒马店'][random(0, 2)],
-      sales: random(1000, 2000),
-      service: ['可预约', '可体验'][random(0, 1)],
-    };
-  });
-};
+import {observer, inject} from 'mobx-react';
 
+@inject('foodLabel')
 export default class GoodsTable extends Component {
   state = {
     current: 1,
     isLoading: false,
     data: [],
+    foodName:'',
+    foodLabel:'',
+    total:50,
   };
 
   componentDidMount() {
-    this.fetchData();
+    this.getList()
   }
 
-  mockApi = (len) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(getData(len));
-      }, 600);
-    });
-  };
-
-  fetchData = (len) => {
+  getList = () =>{
+    let parmas = {
+      foodName:this.state.foodName,
+      foodLabel:this.state.foodLabel,
+      pagerNo:this.state.current,
+    }
     this.setState(
       {
         isLoading: true,
       },
       () => {
-        this.mockApi(len).then((data) => {
-          this.setState({
-            data,
-            isLoading: false,
-          });
-        });
+        this.axios.post('/api/dishesList',parmas).then(res => {
+          if(res.data.code == 200){
+            this.setState({
+              data:res.data.data.items,
+              total:res.data.data.pageInfo.total,
+              isLoading: false,
+            });
+          }
+        })
       }
-    );
-  };
-
+    )
+  }
+   
+  deleteDishes(id){
+    this.axios.get('/api/deleteDishes',{ params : { id }}).then(res=>{
+      if(res.data.code == 200){
+        Message.success(res.data.data.message)
+        this.getList()
+      }else {
+        Message.error('删除失败，请尝试刷新')
+      }
+    })
+  }
+  
   handlePaginationChange = (current) => {
     this.setState(
       {
         current,
       },
       () => {
-        this.fetchData();
+        this.getList();
       }
     );
   };
-
-  handleFilterChange = () => {
-    this.fetchData(5);
+  
+  handleFilterChange = (value) => {
+    // let timer = 0
+    // return function () {
+    //   if (timer) clearTimeout(timer)
+    //     console.log(value,111)
+    //   timer = setTimeout(()=>{
+    //   },500)
+    // }
   };
 
-  handleDelete = () => {
+  handleDelete = ({ _id }) => {
     Dialog.confirm({
       title: '提示',
       content: '确认删除吗',
       onOk: () => {
-        this.fetchData(10);
+        this.deleteDishes(_id)
       },
     });
   };
 
-  handleDetail = () => {
+  handleDetail = (id) => {
     Dialog.confirm({
       title: '提示',
       content: '暂不支持查看详情',
     });
   };
 
-  renderOper = () => {
+  renderLabel = (value) => {
+    const { foodLabel } = this.props
+    return (
+      <div>
+        {
+          value.map((item) => {
+            let index = item - 1
+            return (
+              <span key={item}>{ foodLabel.list[index].label }</span>
+            )
+          })
+        }
+      </div>
+    )
+  }
+  renderCond = (value) =>{
+    const { foodLabel } = this.props
+    return (
+      <span key={value}> { foodLabel.conditions[~~value-1].label} </span>
+    )
+  }
+  renderOper = (value, rowIndex, record, context) => {
     return (
       <div>
         <Button
           type="primary"
           style={{ marginRight: '5px' }}
-          onClick={this.handleDetail}
+          onClick={()=>this.handleDetail(record)}
         >
           详情
         </Button>
-        <Button type="normal" warning onClick={this.handleDelete}>
+        <Button type="normal" warning onClick={()=>this.handleDelete(record)}>
           删除
         </Button>
       </div>
@@ -107,8 +133,7 @@ export default class GoodsTable extends Component {
   };
 
   render() {
-    const { isLoading, data, current } = this.state;
-
+    const { isLoading, data, current ,total} = this.state;
     return (
       <div style={styles.container}>
         <IceContainer>
@@ -116,12 +141,12 @@ export default class GoodsTable extends Component {
         </IceContainer>
         <IceContainer>
           <Table loading={isLoading} dataSource={data} hasBorder={false}>
-            <Table.Column title="菜品名称" dataIndex="name" />
-            <Table.Column title="菜品分类" dataIndex="cate" />
-            <Table.Column title="菜品标签" dataIndex="tag" />
-            <Table.Column title="在售门店" dataIndex="store" />
+            <Table.Column title="菜品名称" dataIndex="foodName" />
+            <Table.Column title="菜品分类" dataIndex="foodLabels" cell={this.renderLabel}/>
+            <Table.Column title="菜品价格" dataIndex="foodPrices" />
+            {/* <Table.Column title="在售门店" dataIndex="store" /> */}
             <Table.Column title="总销量" dataIndex="sales" />
-            <Table.Column title="菜品服务" dataIndex="service" />
+            <Table.Column title="菜品预约条件" dataIndex="bookConditions" cell={this.renderCond}/>
             <Table.Column
               title="操作"
               width={200}
@@ -133,6 +158,7 @@ export default class GoodsTable extends Component {
             style={styles.pagination}
             current={current}
             onChange={this.handlePaginationChange}
+            total={total}
           />
         </IceContainer>
       </div>

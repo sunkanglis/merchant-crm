@@ -17,10 +17,13 @@
   "dependencies": {
     "@koa/cors": "^2.2.2",
     "bcrypt": "^3.0.6",
+    "fs-extra": "^8.0.1",
     "koa": "^2.5.3",
+    "koa-body": "^4.1.0",
     "koa-bodyparser": "^4.2.1",
     "koa-helmet": "^4.0.0",
     "koa-logger": "^3.2.0",
+    "koa-multer": "^1.0.2",
     "koa-respond": "^2.1.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
