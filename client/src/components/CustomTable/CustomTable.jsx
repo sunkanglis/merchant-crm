@@ -55,7 +55,6 @@ export default class CustomTable extends Component {
     });
 
     // 根据当前的 searchQuery/pageIndex 获取列表数据，使用 setTimeout 模拟异步请求
-
     setTimeout(() => {
       this.setState({
         loading: false,
