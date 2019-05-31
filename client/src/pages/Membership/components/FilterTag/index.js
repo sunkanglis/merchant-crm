@@ -4,23 +4,18 @@ import styles from './index.module.scss';
 const MOCK_DATA = [
   {
     selected: '全部',
-    label: '消费频次',
-    value: ['全部', '1月未消费', '2月未消费', '3月未消费', '4月未消费'],
-  },
-  {
-    selected: '全部',
-    label: '消费次数',
-    value: ['全部', '1次以内', '2次以内', '3次以内', '4次以上'],
-  },
-  {
-    selected: '全部',
     label: '会员等级',
-    value: ['全部', '普通会员', '白银会员', '黄金会员', 'VIP 会员'],
+    value: ['全部', '普通会员', '白银会员', '黄金会员', '钻石会员', 'VIP 会员'],
   },
   {
     selected: '全部',
-    label: '会员来源',
-    value: ['全部', '线上顾客', '线下顾客', '广告引流', '未知来源'],
+    label: '会员余额',
+    value: ['全部', '小于5000', '小于10000', '小于50000', '大于50000'],
+  },
+  {
+    selected: '全部',
+    label: '累计消费',
+    value: ['全部', '小于5000', '小于10000', '小于50000', '大于50000'],
   },
 ];
 
@@ -37,7 +32,7 @@ export default class FilterTag extends Component {
         data,
       },
       () => {
-        this.props.onChange();
+        this.props.onChange(data);
       }
     );
   };
