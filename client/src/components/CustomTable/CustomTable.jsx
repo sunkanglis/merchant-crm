@@ -39,6 +39,7 @@ export default class CustomTable extends Component {
     // 获取订单列表数据
     axios.post('/api/order/list',{
       "pageIndex":this.state.pageIndex,
+      "searchQuery":this.state.searchQuery
     }).then(res=>{
       this.state.dataSource = []
       this.setState({

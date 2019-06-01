@@ -27,9 +27,9 @@ class OrderModels{
   }
   // 获取某页订单信息
   async getOrderInfo(query){
-    const { pageIndex } = query
+    const { pageIndex,searchQuery } = query
     const pageSize = 10
-    return OrderModel.find()
+    return OrderModel.find(searchQuery)
     .sort({
       createTime: -1
     })
