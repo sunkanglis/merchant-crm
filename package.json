@@ -36,8 +36,7 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
-    "node-sass": "^4.11.0",
-    "xlsx": "^0.14.3"
+    "node-sass": "^4.11.0"
   },
   "devDependencies": {},
   "title": "外卖商家管理系统",

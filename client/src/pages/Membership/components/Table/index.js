@@ -41,6 +41,7 @@ export default class GoodsTable extends Component {
     .then(res => {
       if (res.data.code == 200) {
         data = res.data.data;
+        console.log(data)
       }
     })
     .catch(function (error) {
