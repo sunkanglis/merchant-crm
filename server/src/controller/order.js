@@ -1,10 +1,10 @@
 const order_model = require('../model/Order')
 class OrderController {
  async getAllOrderInfo(ctx){
-    let _data = await order_model.getAllOrderInfo()
+    let _data = await order_model.list(ctx.request.body)
     ctx.body = {
         code: 200,
-        statusText: 'ok',
+        message:"",
         data:_data
     };
  }

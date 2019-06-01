@@ -279,8 +279,7 @@ export default class OrderList extends Component {
   };
   // 获取订单列表数据
   getData = ()=>{
-    axios.post('/api/order/list',{
-    }).then(res=>{
+    axios.post('/api/order/list',{pageNo:1}).then(res=>{
       data.push(...res.data.data)
     })
   }

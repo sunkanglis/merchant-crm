@@ -23,9 +23,9 @@ export default class GoodsTable extends Component {
 
   componentDidMount() {
     this.fetchData();
-    //随机生成n条会员数据插入数据库（参数为生成数据的条数，参数大于0）
-    //数据添加完成后，下一行代码可删除，可注释
-    // addMembership(50);
+    // 随机生成n条会员数据插入数据库（参数为生成数据的条数，参数大于0）
+    // 数据添加完成后，下一行代码可删除，可注释
+    addMembership(50);
 
   }
 
