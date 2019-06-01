@@ -3,25 +3,12 @@ import { Table, Pagination, Button, Dialog } from '@alifd/next';
 import IceContainer from '@icedesign/container';
 import FilterTag from '../FilterTag';
 import FilterForm from '../FilterForm';
-
+import axios from 'axios';
+import Xlsx from '../../../../components/xlsx/index'
+import addMembership from './addMembership'
 // Random Numbers
 const random = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
-};
-
-// MOCK 数据，实际业务按需进行替换
-const getData = (length = 10) => {
-  return Array.from({ length }).map(() => {
-    return {
-      name: ['淘小宝', '淘二宝'][random(0, 1)],
-      level: ['普通会员', '白银会员', '黄金会员', 'VIP 会员'][random(0, 3)],
-      balance: random(10000, 100000),
-      accumulative: random(50000, 100000),
-      regdate: `2018-12-1${random(1, 9)}`,
-      birthday: `1992-10-1${random(1, 9)}`,
-      store: ['余杭盒马店', '滨江盒马店', '西湖盒马店'][random(0, 2)],
-    };
-  });
 };
 
 export default class GoodsTable extends Component {
@@ -29,31 +16,51 @@ export default class GoodsTable extends Component {
     current: 1,
     isLoading: false,
     data: [],
+    total: 1,
+    query: {},
+    vernier: {limit: 10, skip: 0}
   };
 
   componentDidMount() {
     this.fetchData();
+    //随机生成n条会员数据插入数据库（参数为生成数据的条数，参数大于0）
+    //数据添加完成后，下一行代码可删除，可注释
+    // addMembership(50);
+
   }
 
-  mockApi = (len) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(getData(len));
-      }, 600);
+  getData = async () => {
+    //查询会员数据
+    let that = this;
+    let data = [];
+    await axios
+    .post('/api/selectMembership', {
+      query: that.state.query,
+      vernier: that.state.vernier
+    })
+    .then(res => {
+      if (res.data.code == 200) {
+        data = res.data.data;
+        console.log(data)
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
     });
+    return data;
   };
 
-  fetchData = (len) => {
+  fetchData = () => {
     this.setState(
       {
         isLoading: true,
       },
-      () => {
-        this.mockApi(len).then((data) => {
-          this.setState({
-            data,
-            isLoading: false,
-          });
+      async () => {
+        let data =  await this.getData()
+        this.setState({
+          data: data.array,
+          total: data.count,
+          isLoading: false,
         });
       }
     );
@@ -63,6 +70,7 @@ export default class GoodsTable extends Component {
     this.setState(
       {
         current,
+        vernier: {limit: 10, skip: (current - 1) * 10}
       },
       () => {
         this.fetchData();
@@ -70,8 +78,26 @@ export default class GoodsTable extends Component {
     );
   };
 
-  handleFilterChange = () => {
-    this.fetchData(5);
+  handleFilterChange = (data) => {
+    //目前只能筛选会员等级和归属门店
+    if(data instanceof Array){
+      let query = data.map(item => item.selected)
+      query[0] === '全部' ? query[0] = {$nin: ['nice']} : {$in: [query[0]]}
+      
+      this.setState({
+        query: {
+          membershipGrade: query[0],
+        }
+      });
+    } else{
+      let stors = {BelongingToStores: data.state}
+      if(data.state === "全部门店") { stors = {BelongingToStores: {$nin: ['nice']}} }
+      this.setState({
+        query: Object.assign(this.state.query, stors)
+      });
+    }
+    
+    this.fetchData();
   };
 
   handleDelete = () => {
@@ -79,7 +105,7 @@ export default class GoodsTable extends Component {
       title: '提示',
       content: '确认删除吗',
       onOk: () => {
-        this.fetchData(10);
+        this.fetchData();
       },
     });
   };
@@ -107,10 +133,23 @@ export default class GoodsTable extends Component {
       </div>
     );
   };
+   
+  reanderList = (listType) => {
+    return listType.map((item, index) => <Table.Column title={item.title} dataIndex={item.dataIndex} key={index} />)
+  }
 
   render() {
-    const { isLoading, data, current } = this.state;
-
+    const { isLoading, data, current, total } = this.state;
+    //传入导出表格组件的数据类型，title为每列表格数据的标题，dataIndex的值为每条数据属性的属性名
+    const listType = [
+      { title: "会员名称", dataIndex: "membershipName"},
+      { title: "会员等级", dataIndex: "membershipGrade"},
+      { title: "会员余额(元)", dataIndex: "MemberBalance" },
+      { title: "累计消费(元)", dataIndex: "cumulative" },
+      { title: "注册时间", dataIndex: "registerTime" },
+      { title: "生日时间", dataIndex: "birthdayTime" },
+      { title: "归属门店", dataIndex: "BelongingToStores" },
+    ]
     return (
       <div style={styles.container}>
         <IceContainer>
@@ -119,13 +158,7 @@ export default class GoodsTable extends Component {
         </IceContainer>
         <IceContainer>
           <Table loading={isLoading} dataSource={data} hasBorder={false}>
-            <Table.Column title="会员名称" dataIndex="name" />
-            <Table.Column title="会员等级" dataIndex="level" />
-            <Table.Column title="会员余额(元)" dataIndex="balance" />
-            <Table.Column title="累计消费(元)" dataIndex="accumulative" />
-            <Table.Column title="注册时间" dataIndex="regdate" />
-            <Table.Column title="生日时间" dataIndex="birthday" />
-            <Table.Column title="归属门店" dataIndex="store" />
+            {this.reanderList(listType)}
             <Table.Column
               title="操作"
               width={200}
@@ -136,8 +169,12 @@ export default class GoodsTable extends Component {
           <Pagination
             style={styles.pagination}
             current={current}
+            total={total}
             onChange={this.handlePaginationChange}
           />
+        </IceContainer>
+        <IceContainer>
+          <Xlsx props={{listType: listType, data: this.state.data, fileName: '会员管理表'}}></Xlsx>
         </IceContainer>
       </div>
     );

@@ -57,6 +57,9 @@ class UserController {
       currentAuthority: 'guest',
     };
   }
+
+  
+  
 }
 
 module.exports = new UserController();

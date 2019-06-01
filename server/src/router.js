@@ -1,4 +1,5 @@
 const userController = require('./controller/user');
+const menbershipController = require('./controller/membership');
 const orderController = require('./controller/order')
 const dishesController = require('./controller/dishes')
 const appointmentController = require('./controller/appointment')
@@ -13,6 +14,8 @@ module.exports = (router) => {
     .post('/register', userController.register)
     .post('/order/list',orderController.getOrderInfo)
     .post('/logout', userController.logout)
+    .post('/addMembership', menbershipController.addMembership)
+    .post('/selectMembership', menbershipController.selectMembership)
     .post('/addDishes', upload, dishesController.addDishes)
     .post('/dishesList', dishesController.dishesList)
     .get('/deleteDishes', dishesController.deleteDishes)

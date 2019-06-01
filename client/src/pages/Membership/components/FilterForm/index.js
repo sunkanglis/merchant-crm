@@ -53,9 +53,10 @@ export default class Filter extends Component {
               <span style={styles.formLabel}>归属门店：</span>
               <IceFormBinder triggerType="onBlur" name="state">
                 <Select style={{ width: '200px' }}>
-                  <Select.Option value="1">余杭盒马店</Select.Option>
-                  <Select.Option value="2">滨江盒马店</Select.Option>
-                  <Select.Option value="3">西湖盒马店</Select.Option>
+                  <Select.Option value="全部门店">全部门店</Select.Option>
+                  <Select.Option value="余杭盒马店">余杭盒马店</Select.Option>
+                  <Select.Option value="滨江盒马店">滨江盒马店</Select.Option>
+                  <Select.Option value="西湖盒马店">西湖盒马店</Select.Option>
                 </Select>
               </IceFormBinder>
               <div style={styles.formError}>
