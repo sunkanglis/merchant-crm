@@ -8,7 +8,7 @@ const saveImg = async (ctx, next) => {
   let _extName = PATH.extname(_originalName); // 后缀名
   let _baseName = PATH.basename(_originalName, _extName); // 文件名
   let _filename = _baseName + '_' + Date.now() + _extName // 最终的名字，拼上时间戳，防止覆盖
-  let path = '../../../cliemt/public/uploads/' + _filename
+  let path = '../client/public/uploads/' + _filename
   var base64 = body.foodImage.imgURL.replace(/^data:image\/\w+;base64,/, ""); //去掉图片base64码前面部分data:image/png;base64
   var dataBuffer = new Buffer(base64, 'base64'); //把base64码转成buffer对象
   ctx.request.body.merchantLogo = '/uploads/' + _filename
