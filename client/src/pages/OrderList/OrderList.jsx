@@ -3,20 +3,13 @@ import { Dialog, Button } from '@alifd/next';
 import IceContainer from '@icedesign/container';
 import CustomTable from '../../components/CustomTable';
 import PageHead from '../../components/PageHead';
-import axios from 'axios';
 const defaultSearchQuery = {
-  id: '',
-  goodId: '',
-  applyCode: '',
-  name: '',
-  state: '',
-  orderType: '',
-  createTime: [],
-  refundTime: [],
-  orderTime: [],
-  payment: '',
-  transport: '',
-  checkbox: 'false',
+  id: '', // 订单编号
+  name: '', // 订单名字
+  state: '', // 订单状态
+  orderType: '', // 订单类型
+  payment: '', // 付款方式
+  transport: '', // 物流方式
 };
 // 搜索条件选项框
 const formConfig = [
@@ -30,28 +23,6 @@ const formConfig = [
       name: 'id',
       required: false,
       message: '请输入正确的订单编号',
-    },
-  },
-  {
-    label: '菜品编号',
-    component: 'Input',
-    componentProps: {
-      placeholder: '请输入菜品编号',
-    },
-    formBinderProps: {
-      name: 'goodId',
-      required: false,
-      message: '请输入正确的菜品编号',
-    },
-  },
-  {
-    label: '申请单号',
-    component: 'Input',
-    componentProps: {
-      placeholder: '请输入申请单号',
-    },
-    formBinderProps: {
-      name: 'applyCode',
     },
   },
   {
@@ -70,8 +41,8 @@ const formConfig = [
     componentProps: {
       placeholder: '请选择',
       dataSource: [
-        { label: '已发货', value: 'option1' },
-        { label: '代发货', value: 'option2' },
+        { label: '已发货', value: '派送中' },
+        { label: '代发货', value: '代发货' },
       ],
     },
     formBinderProps: {
@@ -84,45 +55,12 @@ const formConfig = [
     componentProps: {
       placeholder: '请选择',
       dataSource: [
-        { label: '普通订单', value: 'option1' },
-        { label: '代付订单', value: 'option2' },
+        { label: '普通订单', value: '普通订单' },
+        { label: '代付订单', value: '代付订单' },
       ],
     },
     formBinderProps: {
       name: 'orderType',
-    },
-  },
-  {
-    label: '创建时间',
-    component: 'RangePicker',
-    advanced: true,
-    componentProps: {
-      placeholder: '请选择日期',
-    },
-    formBinderProps: {
-      name: 'createTime',
-    },
-  },
-  {
-    label: '下单时间',
-    component: 'RangePicker',
-    advanced: true,
-    componentProps: {
-      placeholder: '请选择日期',
-    },
-    formBinderProps: {
-      name: 'orderTime',
-    },
-  },
-  {
-    label: '退款时间',
-    component: 'RangePicker',
-    advanced: true,
-    componentProps: {
-      placeholder: '请选择日期',
-    },
-    formBinderProps: {
-      name: 'refundTime',
     },
   },
   {
@@ -132,10 +70,10 @@ const formConfig = [
     componentProps: {
       placeholder: '请选择',
       dataSource: [
-        { value: '1', label: '支付宝付款' },
-        { value: '2', label: '银行卡付款' },
-        { value: '3', label: '微信付款' },
-        { value: '4', label: '找人代付' },
+        { value: '支付宝付款', label: '支付宝付款' },
+        { value: '银行卡付款', label: '银行卡付款' },
+        { value: '微信付款', label: '微信付款' },
+        { value: '找人代付', label: '找人代付' },
       ],
     },
     formBinderProps: {
@@ -149,44 +87,17 @@ const formConfig = [
     componentProps: {
       placeholder: '请选择',
       dataSource: [
-        { label: '快递发货', value: '1' },
-        { label: '上门自提', value: '2' },
-        { label: '同城配送', value: '3' },
+        { label: '快递发货', value: '快递发货' },
+        { label: '上门自提', value: '上门自提' },
+        { label: '同城配送', value: '同城配送' },
       ],
     },
     formBinderProps: {
       name: 'transport',
     },
-  },
-  {
-    label: '查询我处理过的订单',
-    component: 'Checkbox',
-    advanced: true,
-    componentProps: {},
-    formBinderProps: {
-      name: 'checkbox',
-    },
-  },
+  }
 ];
 
-// const random = (min, max) => {
-//   return Math.floor(Math.random() * (max - min + 1) + min);
-// };
-// const mockData = Array.from({ length: 10 }).map(() => {
-//   return {
-//     id: random(1, 100),
-//     goodId: random(200, 1000),
-//     name: ['淘公仔', '天猫精灵', '蓝牙音响'][random(1, 2)],
-//     payment:
-//       ['支付宝付款', '银行卡付款', '微信付款'][random(1, 2)] || '支付宝付款',
-//     orderType: ['普通订单', '代付订单'][random(0, 1)],
-//     createTime: '2018-12-12',
-//     state: '派送中',
-//     transport: ['快递发货', '上门自提', '同城配送'][random(0, 2)],
-//   };
-// });
-
-const data = []
 export default class OrderList extends Component {
   renderState = (value) => {
     return (
@@ -293,7 +204,6 @@ export default class OrderList extends Component {
         <IceContainer>
           <CustomTable
             columns={this.getTableColumns()}
-            dataSource={data}
             searchQueryHistory={defaultSearchQuery}
             formConfig={formConfig}
             hasAdvance

@@ -4,20 +4,18 @@ import cloneDeep from 'lodash.clonedeep';
 import PropTypes from 'prop-types';
 import { Table, Pagination } from '@alifd/next';
 import SearchFilter from './SearchFilter';
-
+import axios from 'axios';
 export default class CustomTable extends Component {
   static displayName = 'CustomTable';
 
   static propTypes = {
     enableFilter: PropTypes.bool,
     searchQueryHistory: PropTypes.object,
-    dataSource: PropTypes.array,
   };
 
   static defaultProps = {
     enableFilter: true,
     searchQueryHistory: null,
-    dataSource: [],
   };
 
   constructor(props) {
@@ -27,13 +25,39 @@ export default class CustomTable extends Component {
       searchQuery: cloneDeep(this.props.searchQueryHistory),
       pageIndex: 1,
       dataSource: [],
+      total:0
     };
   }
-
   componentDidMount() {
     this.fetchDataSource();
   }
-
+  // 更新列表数据
+  fetchDataSource = () => {
+    this.setState({
+      loading: true,
+    });
+    // 获取订单列表数据
+    axios.post('/api/order/list',{
+      "pageIndex":this.state.pageIndex,
+      "searchQuery":this.state.searchQuery
+    }).then(res=>{
+      this.state.dataSource = []
+      this.setState({
+        loading: false,
+        dataSource:res.data.data,
+        total:res.data.total
+      })
+    })
+  };
+   // 点击分页
+   onPaginationChange = (pageIndex) => {
+    this.setState({
+       pageIndex,
+      },
+      this.fetchDataSource
+    );
+  };
+  // 传递的属性改变时执行
   componentWillReceiveProps(nextProps) {
     if (nextProps.hasOwnProperty('searchQueryHistory')) {
       this.setState(
@@ -48,27 +72,12 @@ export default class CustomTable extends Component {
       );
     }
   }
-
-  fetchDataSource = () => {
-    this.setState({
-      loading: true,
-    });
-
-    // 根据当前的 searchQuery/pageIndex 获取列表数据，使用 setTimeout 模拟异步请求
-    setTimeout(() => {
-      this.setState({
-        loading: false,
-        dataSource: this.props.dataSource,
-      });
-    }, 1 * 1000);
-  };
-
   onSearchChange = (searchQuery) => {
     this.setState({
       searchQuery,
     });
   };
-
+  // 点击搜索
   onSearchSubmit = (searchQuery) => {
     this.setState(
       {
@@ -78,26 +87,16 @@ export default class CustomTable extends Component {
       this.fetchDataSource
     );
   };
-
+  // 点击重置
   onSearchReset = () => {
     this.setState({
       searchQuery: cloneDeep(this.props.searchQueryHistory),
     });
   };
-
-  onPaginationChange = (pageIndex) => {
-    this.setState(
-      {
-        pageIndex,
-      },
-      this.fetchDataSource
-    );
-  };
-
+ 
   render() {
     const { enableFilter, columns, formConfig, hasAdvance } = this.props;
-    const { searchQuery, dataSource, loading, pageIndex } = this.state;
-
+    const { searchQuery, dataSource, loading, pageIndex, total} = this.state;
     return (
       <div>
         {enableFilter && (
@@ -128,6 +127,7 @@ export default class CustomTable extends Component {
         <Pagination
           style={styles.pagination}
           current={pageIndex}
+          total = {total}
           onChange={this.onPaginationChange}
         />
       </div>

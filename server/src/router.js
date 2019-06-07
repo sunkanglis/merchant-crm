@@ -12,7 +12,7 @@ module.exports = (router) => {
     .get('/profile', userController.profile)
     .post('/login', userController.login)
     .post('/register', userController.register)
-    .post('/order/list',orderController.getAllOrderInfo)
+    .post('/order/list',orderController.getOrderInfo)
     .post('/logout', userController.logout)
     .post('/addMembership', menbershipController.addMembership)
     .post('/selectMembership', menbershipController.selectMembership)
