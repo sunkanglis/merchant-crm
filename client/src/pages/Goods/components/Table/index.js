@@ -94,6 +94,15 @@ export default class GoodsTable extends Component {
     });
   };
 
+  renderLogo = (value) => {
+    return (
+      <div style={styles.imagesBox}>
+        <img  style={styles.imagesBox} src={"http://localhost:4444/public"+value}></img>
+      </div>
+    );
+  }
+
+
   renderLabel = (value) => {
     const { foodLabel } = this.props
     return (
@@ -134,6 +143,7 @@ export default class GoodsTable extends Component {
 
   render() {
     const { isLoading, data, current ,total} = this.state;
+    console.log('data: ',data)
     return (
       <div style={styles.container}>
         <IceContainer>
@@ -141,6 +151,7 @@ export default class GoodsTable extends Component {
         </IceContainer>
         <IceContainer>
           <Table loading={isLoading} dataSource={data} hasBorder={false}>
+            <Table.Column title="菜品图片" dataIndex="merchantLogo" cell={this.renderLogo} />
             <Table.Column title="菜品名称" dataIndex="foodName" />
             <Table.Column title="菜品分类" dataIndex="foodLabels" cell={this.renderLabel}/>
             <Table.Column title="菜品价格" dataIndex="foodPrices" />
@@ -171,4 +182,16 @@ const styles = {
     marginTop: '20px',
     textAlign: 'right',
   },
+  imagesBox: {
+    width: '120px',
+    height: '80px',
+    overflow: 'hidden',
+    textAlign: 'center',
+    lineHeight: '80px'
+  },
+  images: {
+    width: 'auto',
+    height: '100%',
+    margin: '0 100%',
+  }
 };
