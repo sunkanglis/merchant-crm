@@ -52,6 +52,7 @@ const formConfig = [
   {
     label: '订单类型',
     component: 'Select',
+    advanced: true,
     componentProps: {
       placeholder: '请选择',
       dataSource: [
@@ -189,14 +190,14 @@ export default class OrderList extends Component {
     ];
   };
   // 获取订单列表数据
-  getData = ()=>{
-    axios.post('/api/order/list',{pageNo:1}).then(res=>{
-      data.push(...res.data.data)
-    })
-  }
-  componentDidMount(){
-    this.getData()
-  }
+  // getData = ()=>{
+  //   this.axios.post('/api/order/list',{pageNo:1}).then(res=>{
+  //     data.push(...res.data.data)
+  //   })
+  // }
+  // componentDidMount(){
+  //   this.getData()
+  // }
   render() {
     return (
       <div>
