@@ -3,7 +3,6 @@ const dishes_model = require('../model/Dishes')
 class DishesController{
   // 添加
   async addDishes(ctx){
-    console.log('controller:',ctx.request.body)
     let _data = await dishes_model.saveDishes(ctx.request.body);
     ctx.body = {
       code:200,

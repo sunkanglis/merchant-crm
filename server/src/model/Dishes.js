@@ -13,6 +13,7 @@ var DishesModel = mongoose.model('dishes',new mongoose.Schema({
   // presellStartTime:String,
   // presellEndTime:String,
   saleSAmount:Number,
+  merchantLogo: String,
   sales:Number,
   presellStartTime:Array,
   bookConditions:String,
@@ -27,19 +28,18 @@ class DishesModelS{
   async saveDishes(body){
     let _timestamp = Date.now();
     let moment = Moment(_timestamp);
-    // body.merchantLogo = body.merchantLogo || default_logo;
-    // return new DishesModel({ 
-    //   ...body,
-    //   sales:0,
-    //   createTime: _timestamp,
-    //   settledTime: moment.format("YYYY-MM-DD, HH:mm")
-    // }).save()
-    //   .then((result) => {
-    //     return result
-    //   })
-    //   .catch((err) => {
-    //       return false
-    //   })
+    return new DishesModel({ 
+      ...body,
+      sales:0,
+      createTime: _timestamp,
+      settledTime: moment.format("YYYY-MM-DD, HH:mm")
+    }).save()
+      .then((result) => {
+        return result
+      })
+      .catch((err) => {
+          return false
+      })
   }
 
   // 返回菜品全部数据

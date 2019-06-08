@@ -41,17 +41,18 @@ export default class GoodsForm extends Component {
       if (errors) {
         return;
       }
-
-      let params = new FormData()
-      for (var i in values){
-        if(i == 'foodImage'){
-          params.append(i,values[i][0])
-        }else{
-          params.append(i,values[i])
-        }
-      }
+      // let params = new FormData()
+      // for (var i in values){
+      //   if(i === 'foodImage'){
+      //     console.log(values[i][0])
+      //     params.append(i,JSON.stringify(values[i][0]))
+      //   }else{
+      //     params.append(i,values[i])
+      //   }
+      // }
       let param = JSON.parse(JSON.stringify(values))
       param.foodImage = param.foodImage[0]
+      
       that.axios({
         method:'POST',
         url:'/api/addDishes',
@@ -60,9 +61,10 @@ export default class GoodsForm extends Component {
       }).then(res=>{
         if(res.data.code == 200){
           Message.success('提交成功');
-          // this.setState({
-          //   value:{}
-          // })
+          console.log(res.data.data)
+          this.setState({
+            value:{}
+          })
         }else{
           Message.error(res.data.message);
         }
