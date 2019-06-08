@@ -113,7 +113,6 @@ export default class GoodsTable extends Component {
     const { foodLabel } = this.props
     return (
       <span key={value}> { foodLabel.conditions[~~value-1]?foodLabel.conditions[~~value-1].label:'暂无'} </span>
-     
     )
   }
   renderOper = (value, rowIndex, record, context) => {
