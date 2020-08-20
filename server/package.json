@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@koa/cors": "^2.2.2",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "fs-extra": "^8.0.1",
     "koa": "^2.5.3",
     "koa-body": "^4.1.0",
